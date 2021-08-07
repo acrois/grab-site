@@ -63,19 +63,21 @@ class GrabberServerProtocol(WebSocketServerProtocol):
 	# Called when we get an HTTP request instead of a WebSocket request
 	def sendServerStatus(self, redirectUrl=None, redirectAfter=0):
 		requestPath = self.http_request_uri.split("?")[0]
-        print(f"request {requestPath}")
+		#print(f"request {requestPath}")
 		if requestPath == "/":
-			self.send_page("/dashboard.html", 200, "OK", "text/html; charset=UTF-8")
+			self.send_page("dashboard.html", 200, "OK", "text/html; charset=UTF-8")
 		elif requestPath == "/favicon.ico":
 			self.send_page("favicon.ico", 200, "OK", "image/x-icon")
-		elif requestPath == "js/dashboard.js":
-			self.send_page("/js/dashboard.js", 200, "OK", "text/javascript; charset=UTF-8")
+		elif requestPath == "/js/dashboard.js":
+			self.send_page("js/dashboard.js", 200, "OK", "text/javascript; charset=UTF-8")
+		elif requestPath == "/style.css":
+			self.send_page("style.css", 200, "OK", "text/css; charset=UTF-8")
 		else:
-			self.send_page("/404.html", 404, "Not Found", "text/html; charset=UTF-8")
+			self.send_page("404.html", 404, "Not Found", "text/html; charset=UTF-8")
 
 	# Based on AutoBahn's WebSocketServerProtocol.sendHtml
 	def send_page(self, fname, code, status, content_type):
-		with open(os.path.join(os.path.dirname(__file__), 'dashboard', fname), "rb") as f:
+		with open(os.path.join(os.path.dirname(__file__), 'dashboard/', fname), "rb") as f:
 			response_body = f.read()
 		response =  f"HTTP/1.1 {code} {status}\r\n"
 		response += f"Content-Type: {content_type}\r\n"
