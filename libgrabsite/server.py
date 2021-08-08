@@ -64,12 +64,13 @@ class GrabberServerProtocol(WebSocketServerProtocol):
 	def sendServerStatus(self, redirectUrl=None, redirectAfter=0):
 		requestPath = self.http_request_uri.split("?")[0]
 		#print(f"request {requestPath}")
+
 		if requestPath == "/":
 			self.send_page("index.html", 200, "OK", "text/html; charset=UTF-8")
 		elif requestPath == "/favicon.ico":
 			self.send_page("favicon.ico", 200, "OK", "image/x-icon")
-		elif requestPath == "/js/dashboard.js":
-			self.send_page("js/dashboard.js", 200, "OK", "text/javascript; charset=UTF-8")
+		elif requestPath == "/js/index.js" or requestPath == "/js/utilities.js" or requestPath == "/js/JobsTracker.js" or requestPath == "/js/JobRenderInfo.js" or requestPath == "/js/ContextMenuRenderer.js" or requestPath == "/js/JobsRenderer.js" or requestPath == "/js/BatchingQueue.js" or requestPath == "/js/Decayer.js" or requestPath == "/js/Dashboard.js":
+			self.send_page(requestPath[1:], 200, "OK", "text/javascript; charset=UTF-8")
 		elif requestPath == "/style.css":
 			self.send_page("style.css", 200, "OK", "text/css; charset=UTF-8")
 		else:
